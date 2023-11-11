@@ -22,6 +22,10 @@ function DOMAZE_OLD () {
     R()
     half_f()
 }
+function half_f () {
+    CutebotPro.runBlockCnt(0.5)
+    music.play(music.tonePlayable(523, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
+}
 function DOMAZE (INSRUCTIONS: string, totaltime: number) {
     InstructionList = INSRUCTIONS.split("")
     let instructionEstimates: {[comlet: string]: number} = {
@@ -30,23 +34,22 @@ function DOMAZE (INSRUCTIONS: string, totaltime: number) {
         'F': 5,
         'f': 2.5,
     };
-    const letter_to_function: {[comlet: string]: Function} = {
+const letter_to_function: {[comlet: string]: Function} = {
         'R': R,
         'L': L,
         'F': F,
         'f': half_f,
         
     };
-    let movetime = 0;
-    for(let i = 0; i < (InstructionList.length); i++) movetime += instructionEstimates[InstructionList[i]];
-    let waittime = totaltime - movetime;
-    let waittime_per_wait_inital: number = waittime / (InstructionList.length-1);
-    
-    for (let i = 0; i < InstructionList.length; i++) {
-        letter_to_function[InstructionList[i]]();
-        basic.pause(waittime_per_wait_inital);
+for (let i = 0; i <= InstructionList.length - 1; i++) {
+        movetime += instructionEstimates[InstructionList[i]]
     }
-    
+    waittime = totaltime - movetime
+    waittime_per_wait_inital = waittime / (InstructionList.length - 1)
+    for (let j = 0; j <= InstructionList.length - 1; j++) {
+        letter_to_function[InstructionList[j]]();
+basic.pause(waittime_per_wait_inital)
+    }
 }
 function _75F () {
     CutebotPro.runBlockCnt(0.75)
@@ -55,13 +58,12 @@ function R () {
     CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, CutebotProAngle.Angle90)
     music.play(music.tonePlayable(330, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
 }
-function half_f () {
-    CutebotPro.runBlockCnt(0.5)
-    music.play(music.tonePlayable(523, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
-}
 let SPIRIT = 0
-let InstructionList: string[] = []
+let waittime_per_wait_inital = 0
+let waittime = 0
+let movetime = 0
 let StartTime = 0
+let InstructionList: string[] = []
 let STARTSEQUENCE = 1
 let SONAR = CutebotPro.ultrasonic(SonarUnit.Centimeters)
 CutebotPro.setBlockCnt(50, CutebotProDistanceUnits.Cm)
