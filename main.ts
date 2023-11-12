@@ -97,7 +97,7 @@ basic.forever(function () {
 basic.forever(function () {
     if (STARTSEQUENCE == 4) {
         music.play(music.stringPlayable("D E F G E - C D ", 500), music.PlaybackMode.UntilDone)
-        DOMAZE_OLD()
+        time_move()
         music.play(music.stringPlayable("C - - C - C G G ", 750), music.PlaybackMode.UntilDone)
         music.play(music.stringPlayable("G G G G - - - - ", 750), music.PlaybackMode.UntilDone)
         STARTSEQUENCE = 0
