@@ -27,7 +27,7 @@ function half_f () {
     music.play(music.tonePlayable(523, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
 }
 function DOMAZE (INSRUCTIONS: string, totaltime: number) {
-    InstructionList = INSRUCTIONS.split("")
+    InstructionList = INSRUCTIONS.split("FFRFLFf")
     let instructionEstimates: {[comlet: string]: number} = {
         'R': 1.5,
         'L': 1.5,
@@ -58,12 +58,20 @@ function R () {
     CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, CutebotProAngle.Angle90)
     music.play(music.tonePlayable(330, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
 }
+function time_move () {
+    StartTime = control.millis()
+    F()
+    while (true) {
+        basic.showString(convertToText(control.millis() - StartTime))
+    }
+}
 let SPIRIT = 0
 let waittime_per_wait_inital = 0
 let waittime = 0
 let movetime = 0
 let StartTime = 0
 let InstructionList: string[] = []
+StartTime = 0
 let STARTSEQUENCE = 1
 let SONAR = CutebotPro.ultrasonic(SonarUnit.Centimeters)
 CutebotPro.setBlockCnt(50, CutebotProDistanceUnits.Cm)
