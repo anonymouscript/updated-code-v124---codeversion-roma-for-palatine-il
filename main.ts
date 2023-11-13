@@ -20,19 +20,22 @@ function DOMAZE_OLD () {
     F()
     F()
     R()
-    half_f()
+    half_f_end()
 }
-function half_f () {
+function half_f(){
     CutebotPro.runBlockCnt(0.5)
+}
+function half_f_end () {
+    half_f()
     music.play(music.tonePlayable(523, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
 }
-function DOMAZE (INSRUCTIONS: string, totaltime: number) {
+function DOMAZE (INSRUCTIONS: string, totaltime_ms: number) {
     InstructionList = INSRUCTIONS.split("FFRFLFf")
     let instructionEstimates: {[comlet: string]: number} = {
-        'R': 1.5,
-        'L': 1.5,
-        'F': 5,
-        'f': 2.5,
+        'R': 1500,
+        'L': 1500,
+        'F': 5000,
+        'f': 2500,
     };
 const letter_to_function: {[comlet: string]: Function} = {
         'R': R,
@@ -44,7 +47,7 @@ const letter_to_function: {[comlet: string]: Function} = {
 for (let i = 0; i <= InstructionList.length - 1; i++) {
         movetime += instructionEstimates[InstructionList[i]]
     }
-    waittime = totaltime - movetime
+    waittime = totaltime_ms - movetime
     waittime_per_wait_inital = waittime / (InstructionList.length - 1)
     for (let j = 0; j <= InstructionList.length - 1; j++) {
         letter_to_function[InstructionList[j]]();
@@ -63,6 +66,7 @@ function time_move () {
     F()
     while (true) {
         basic.showString(convertToText(control.millis() - StartTime))
+        basic.pause(1000)
     }
 }
 let SPIRIT = 0
