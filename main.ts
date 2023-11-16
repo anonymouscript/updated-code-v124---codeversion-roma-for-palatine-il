@@ -1,3 +1,5 @@
+
+
 function L () {
     CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, CutebotProAngle.Angle90)
     music.play(music.tonePlayable(392, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
@@ -30,28 +32,28 @@ function half_f () {
     CutebotPro.runBlockCnt(0.5)
 }
 function DOMAZE (INSRUCTIONS: string, totaltime_ms: number) {
-    InstructionList = INSRUCTIONS.split("FFRFLFf")
+    let InstructionList = INSRUCTIONS.split("");
     let instructionEstimates: {[comlet: string]: number} = {
         'R': 4344,
         'L': 4616,
         'F': 3324,
         'f': 2004,
     };
-const letter_to_function: {[comlet: string]: Function} = {
+    const letter_to_function: {[comlet: string]: Function} = {
         'R': R,
         'L': L,
         'F': F,
         'f': half_f,
         
     };
-for (let i = 0; i <= InstructionList.length - 1; i++) {
-        movetime += instructionEstimates[InstructionList[i]]
-    }
-    waittime = totaltime_ms - movetime
-    waittime_per_wait_inital = waittime / (InstructionList.length - 1)
-    for (let j = 0; j <= InstructionList.length - 1; j++) {
-        letter_to_function[InstructionList[j]]();
-basic.pause(waittime_per_wait_inital)
+    for (let i = 0; i <= InstructionList.length - 1; i++) {
+            movetime += instructionEstimates[InstructionList[i]]
+        }
+        waittime = totaltime_ms - movetime
+        waittime_per_wait_inital = waittime / (InstructionList.length - 1)
+        for (let j = 0; j <= InstructionList.length - 1; j++) {
+            letter_to_function[InstructionList[j]]();
+    basic.pause(waittime_per_wait_inital)
     }
 }
 function _75F () {
@@ -59,18 +61,28 @@ function _75F () {
 }
 function R () {
     CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, CutebotProAngle.Angle90)
-    music.play(music.tonePlayable(330, music.beat(BeatFraction.Whole)), music.PlaybackMode.UntilDone)
 }
 function time_move () {
     SPIRIT = 2
     StartTime = control.millis()
-    half_f()
+    F(); F(); F(); F();
     TotalTime = control.millis() - StartTime
     while (true) {
         basic.showString(convertToText(TotalTime))
         basic.pause(1000)
     }
 }
+//Modify these 
+// |
+// |
+// V
+const INSRUCTIONS = "FFLFRFLLFF";
+const TIME = 35000;
+const ACTION = DOMAZE;
+const ACTION_ARGS = [INSRUCTIONS, TIME];
+// ~~~~~~~~~~~~~~~~~
+
+
 let STARTSEQUENCE = 0
 let TotalTime = 0
 let StartTime = 0
@@ -78,9 +90,8 @@ let SPIRIT = 0
 let waittime_per_wait_inital = 0
 let waittime = 0
 let movetime = 0
-let InstructionList: string[] = []
-let SONAR = CutebotPro.ultrasonic(SonarUnit.Centimeters)
 CutebotPro.setBlockCnt(50, CutebotProDistanceUnits.Cm)
+
 music.play(music.stringPlayable("C E G C5 - - - - ", 1000), music.PlaybackMode.UntilDone)
 basic.forever(function () {
     if (SPIRIT == 0) {
@@ -100,9 +111,10 @@ basic.forever(function () {
         basic.pause(200)
     }
 })
-basic.forever(function () {
+basic.forever(function () { //handles SONAR 
     while (STARTSEQUENCE != 4) {
-        if (CutebotPro.ultrasonic(SonarUnit.Centimeters) < 5) {
+        let SONARTMP = CutebotPro.ultrasonic(SonarUnit.Centimeters);
+        if (0 < SONARTMP && SONARTMP < 5) {
             STARTSEQUENCE = STARTSEQUENCE + 1
         } else {
             STARTSEQUENCE = 0
@@ -119,7 +131,7 @@ basic.forever(function () {
 basic.forever(function () {
     if (STARTSEQUENCE == 4) {
         music.play(music.stringPlayable("D E F G E - C D ", 500), music.PlaybackMode.UntilDone)
-        time_move()
+        ACTION(INSRUCTIONS,TIME);
         music.play(music.stringPlayable("C - - C - C G G ", 750), music.PlaybackMode.UntilDone)
         music.play(music.stringPlayable("G G G G - - - - ", 750), music.PlaybackMode.UntilDone)
         STARTSEQUENCE = 0
