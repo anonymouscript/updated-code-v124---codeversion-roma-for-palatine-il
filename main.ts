@@ -114,7 +114,7 @@ basic.forever(function () {
 basic.forever(function () { //handles SONAR 
     while (STARTSEQUENCE != 4) {
         let SONARTMP = CutebotPro.ultrasonic(SonarUnit.Centimeters);
-        if (0 < SONARTMP && SONARTMP < 5) {
+        if (0 < SONARTMP && SONARTMP < 20) {
             STARTSEQUENCE = STARTSEQUENCE + 1
         } else {
             STARTSEQUENCE = 0
